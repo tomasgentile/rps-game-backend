@@ -23,13 +23,15 @@ app.use(cors(corsOptions));
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
+    console.log(process.env.FRONTEND_URL)
 });
 
 // Socket.io
 const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
-        origin: process.env.FRONTEND_URL
+        origin: process.env.FRONTEND_URL,
+        methods: ["GET", "POST"]
     }
 });
 
