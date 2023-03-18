@@ -19,13 +19,6 @@ const corsOptions = {
     }
 }
 app.use(cors(corsOptions));
-app.use(function(req, res, next) {
-    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    res.setHeader('Access-Control-Allow-Credentials', true);
-    next();
-});
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
@@ -37,7 +30,15 @@ const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
         origin: process.env.FRONTEND_URL,
-        methods: ["GET", "POST"]
+        handlePreflightRequest: (req, res) => {
+            res.writeHead(200, {
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "GET",
+                "Access-Control-Allow-Headers": "header",
+                "Access-Control-Allow-Credentials": true
+            });
+            res.end();
+        }
     }
 });
 
