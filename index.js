@@ -30,15 +30,9 @@ const io = new Server(server, {
     pingTimeout: 60000,
     cors: {
         origin: process.env.FRONTEND_URL,
-        handlePreflightRequest: (req, res) => {
-            res.writeHead(200, {
-                "Access-Control-Allow-Origin": "*",
-                "Access-Control-Allow-Methods": "GET",
-                "Access-Control-Allow-Headers": "header",
-                "Access-Control-Allow-Credentials": true
-            });
-            res.end();
-        }
+        methods: ["GET", "POST"],
+        allowedHeaders: ["my-custom-header"],
+        credentials: true
     }
 });
 
