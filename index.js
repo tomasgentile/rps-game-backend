@@ -11,7 +11,7 @@ dotenv.config();
 const whitelist = [process.env.FRONTEND_URL];
 const corsOptions = {
     origin: function (origin, callback) {
-        if (whitelist.indexOf(origin) !== -1 || !origin) {
+        if (whitelist.includes(origin)) {
             callback(null, true);
         } else {
             callback(new Error('Error - Cors'));
@@ -19,11 +19,17 @@ const corsOptions = {
     }
 }
 app.use(cors(corsOptions));
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', process.env.FRONTEND_URL);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
 
 const PORT = process.env.PORT || 4000;
 const server = app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
-    console.log(process.env.FRONTEND_URL)
 });
 
 // Socket.io
