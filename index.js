@@ -32,7 +32,7 @@ const io = new Server(server, {
         origin: process.env.FRONTEND_URL,
         methods: ["GET", "POST"],
         allowedHeaders: ["my-custom-header"],
-        credentials: true
+        credentials: false
     }
 });
 
