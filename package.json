@@ -12,6 +12,7 @@
   "author": "Tomás Gentile",
   "license": "ISC",
   "dependencies": {
+    "@railway/cli": "^3.0.13",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",

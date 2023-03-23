@@ -42,6 +42,7 @@ const io = new Server(server, {
     }
 });
 
+
 io.on('connection', (socket) => {
     socket.on('join-game', (data) => {
         socket.join(data);
@@ -59,9 +60,12 @@ io.on('connection', (socket) => {
     socket.on('rejectedrematch', (gameId) => {
         socket.to(gameId).emit('sendingRejectedRematch', 'Opponent rejected a rematch');
     });
-
     socket.on('leaving', (gameId) => {
         socket.to(gameId).emit('sendingleaving', 'Opponent has left the game');
         socket.leave(gameId);
+    });
+    socket.on('disconnecting', () => {
+        const gameId = Array.from(socket.rooms)[1];
+        socket.to(gameId).emit('sendingleaving', 'Opponent has left the game');
     });
 });
